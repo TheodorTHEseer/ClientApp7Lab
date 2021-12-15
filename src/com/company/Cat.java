@@ -48,7 +48,7 @@ public class Cat implements Serializable {
         this.weight=Double.valueOf(CatMas[5]);
     }
     public boolean isReal() {
-        if (this.race!=null)
+        if (this.weight>0.0)
             return true;
         return false;
     }

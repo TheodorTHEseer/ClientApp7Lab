@@ -12,11 +12,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Map <Integer, String> names = new HashMap<>();
-
-        System.out.println(names.get(2));
-
-
         Socket socket= new Socket();
         Scanner in = new Scanner(System.in);
         try {
@@ -52,6 +47,8 @@ public class Main {
             cat.fromString(specs);
             if(cat.isReal() == true)
                 cat.upload();
+            else
+                System.out.println("Такого питомца не существует!");
 
         }
         }
