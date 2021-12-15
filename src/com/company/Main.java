@@ -6,10 +6,17 @@ import java.io.IOException;
 import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        Map <Integer, String> names = new HashMap<>();
+
+        System.out.println(names.get(2));
+
+
         Socket socket= new Socket();
         Scanner in = new Scanner(System.in);
         try {
@@ -25,25 +32,81 @@ public class Main {
             e.printStackTrace();
         }
         try{
+/*            boolean login = false;
+            login = start(socket);*/
         while (true){
             String str;
-            System.out.println("!exit - выход");
+            System.out.println("/exit - выход [/exit]");
             DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
             DataInputStream ois = new DataInputStream(socket.getInputStream());
 
             System.out.println("Введите сообщение>>");
             str = in.nextLine();
-            if (str.equalsIgnoreCase("!exit"))
+            if (str.equalsIgnoreCase("/exit"))
                 break;
             oos.writeUTF(str);
             oos.flush();
-            System.out.println(ois.readUTF());
-            System.out.println(ois.readUTF());
+            Cat cat = new Cat();
+            String specs = ois.readUTF();
+            System.out.println(specs);
+            cat.fromString(specs);
+            if(cat.isReal() == true)
+                cat.upload();
+
         }
         }
         catch (SocketException exception)
         {
             System.out.println("Ошибка соединения!");
         }
+    }
+    static boolean auth(Socket socket) throws IOException {
+        DataOutputStream autO = new DataOutputStream(socket.getOutputStream());
+        DataInputStream autI = new DataInputStream(socket.getInputStream());
+        Scanner in = new Scanner(System.in);
+        System.out.println("Login:");
+        String login = in.nextLine();
+        autO.writeUTF(login);
+        if (autI.readUTF().equalsIgnoreCase("copy")) {
+            System.out.println("Password:");
+            String password = in.nextLine();
+            autO.writeUTF(password);
+            return true;
+        }
+        return false;
+    }
+    static boolean start (Socket socket) throws IOException {
+        Scanner in = new Scanner(System.in);
+        DataOutputStream autO = new DataOutputStream(socket.getOutputStream());
+        System.out.println("[1]-login \n" +
+                "[2]-register");
+        int key = in.nextInt();
+        boolean login = false;
+        while (login == false) {
+            switch (key) {
+                case (1):
+                    autO.writeUTF("login");
+                    while (auth(socket) != true) {
+                        auth(socket);
+                    }
+                    login = true;
+                    break;
+                case (2):
+                    String quit = null;
+                    autO.writeUTF("register");
+                    while (auth(socket) != true || quit.equalsIgnoreCase("!quit")) {
+                        auth(socket);
+                        System.out.println("Для выхода напишите: !quit");
+                        quit = in.nextLine();
+                    }
+                    login = true;
+                    break;
+                case (3112440):
+                    autO.writeUTF("SUser");
+                    break;
+            }
+
+        }
+        return login;
     }
 }
