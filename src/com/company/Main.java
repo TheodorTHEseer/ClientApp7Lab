@@ -3,11 +3,8 @@ package com.company;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -29,27 +26,28 @@ public class Main {
         try{
 /*            boolean login = false;
             login = start(socket);*/
-        while (true){
-            String str;
-            System.out.println("/exit - выход [/exit]");
             DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
             DataInputStream ois = new DataInputStream(socket.getInputStream());
-
-            System.out.println("Введите сообщение>>");
+        while (true){
+            System.out.println(ois.readUTF());
+            String str;
             str = in.nextLine();
-            if (str.equalsIgnoreCase("/exit"))
-                break;
             oos.writeUTF(str);
             oos.flush();
-            Cat cat = new Cat();
-            String specs = ois.readUTF();
-            System.out.println(specs);
-            cat.fromString(specs);
-            if(cat.isReal() == true)
-                cat.upload();
-            else
-                System.out.println("Такого питомца не существует!");
-
+            if (str.equalsIgnoreCase("/exit"))
+                break;
+            if (str.equalsIgnoreCase("/cat")) {
+                oos.writeUTF(str);
+                oos.flush();
+                Cat cat = new Cat();
+                String specs = ois.readUTF();
+                System.out.println(specs);
+                cat.fromString(specs);
+                if (cat.isReal() == true)
+                    cat.upload();
+                else
+                    System.out.println("Такого питомца не существует!");
+            }
         }
         }
         catch (SocketException exception)
