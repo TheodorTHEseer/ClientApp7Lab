@@ -28,26 +28,29 @@ public class Main {
             login = start(socket);*/
             DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
             DataInputStream ois = new DataInputStream(socket.getInputStream());
+            Cat cat = new Cat();
         while (true){
             System.out.println(ois.readUTF());
             String str;
             str = in.nextLine();
-            oos.writeUTF(str);
-            oos.flush();
-            if (str.equalsIgnoreCase("/exit"))
-                break;
-            if (str.equalsIgnoreCase("/cat")) {
+            String [] sMas = str.split(" ");
+            if (sMas[0].equalsIgnoreCase("/cat")) {
                 oos.writeUTF(str);
-                oos.flush();
-                Cat cat = new Cat();
                 String specs = ois.readUTF();
-                System.out.println(specs);
                 cat.fromString(specs);
-                if (cat.isReal() == true)
+                if (cat.isReal() == true) {
                     cat.upload();
+                    cat.display();
+                }
                 else
                     System.out.println("Такого питомца не существует!");
             }
+            oos.writeUTF(str);
+            oos.flush();
+
+            if (str.equalsIgnoreCase("/exit"))
+                break;
+
         }
         }
         catch (SocketException exception)
@@ -55,7 +58,7 @@ public class Main {
             System.out.println("Ошибка соединения!");
         }
     }
-    static boolean auth(Socket socket) throws IOException {
+    /*static boolean auth(Socket socket) throws IOException {
         DataOutputStream autO = new DataOutputStream(socket.getOutputStream());
         DataInputStream autI = new DataInputStream(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -103,5 +106,5 @@ public class Main {
 
         }
         return login;
-    }
+    }*/
 }

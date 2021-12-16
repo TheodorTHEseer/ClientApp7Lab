@@ -41,6 +41,9 @@ public class Cat implements Serializable {
         return "name," + name + ",race," + race +
                 ",weight," +weight;
     }
+    public void display(){
+        System.out.println("Name: " + this.name + ", Race: " + this.race+", Weight: " + this.weight);
+    }
     public void fromString(String catString){
         String [] CatMas = catString.split(",");
         this.name=CatMas[1];
