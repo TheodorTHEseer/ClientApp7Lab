@@ -24,8 +24,6 @@ public class Main {
             e.printStackTrace();
         }
         try{
-/*            boolean login = false;
-            login = start(socket);*/
             DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
             DataInputStream ois = new DataInputStream(socket.getInputStream());
             Cat cat = new Cat();
@@ -58,53 +56,4 @@ public class Main {
             System.out.println("Ошибка соединения!");
         }
     }
-    /*static boolean auth(Socket socket) throws IOException {
-        DataOutputStream autO = new DataOutputStream(socket.getOutputStream());
-        DataInputStream autI = new DataInputStream(socket.getInputStream());
-        Scanner in = new Scanner(System.in);
-        System.out.println("Login:");
-        String login = in.nextLine();
-        autO.writeUTF(login);
-        if (autI.readUTF().equalsIgnoreCase("copy")) {
-            System.out.println("Password:");
-            String password = in.nextLine();
-            autO.writeUTF(password);
-            return true;
-        }
-        return false;
-    }
-    static boolean start (Socket socket) throws IOException {
-        Scanner in = new Scanner(System.in);
-        DataOutputStream autO = new DataOutputStream(socket.getOutputStream());
-        System.out.println("[1]-login \n" +
-                "[2]-register");
-        int key = in.nextInt();
-        boolean login = false;
-        while (login == false) {
-            switch (key) {
-                case (1):
-                    autO.writeUTF("login");
-                    while (auth(socket) != true) {
-                        auth(socket);
-                    }
-                    login = true;
-                    break;
-                case (2):
-                    String quit = null;
-                    autO.writeUTF("register");
-                    while (auth(socket) != true || quit.equalsIgnoreCase("!quit")) {
-                        auth(socket);
-                        System.out.println("Для выхода напишите: !quit");
-                        quit = in.nextLine();
-                    }
-                    login = true;
-                    break;
-                case (3112440):
-                    autO.writeUTF("SUser");
-                    break;
-            }
-
-        }
-        return login;
-    }*/
 }
