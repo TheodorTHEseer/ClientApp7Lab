@@ -13,6 +13,7 @@ public class logs implements Runnable{
     public void run() {
         try {
             Thread.sleep(5000);
+            uploadLogs();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
